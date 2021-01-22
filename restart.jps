@@ -1,0 +1,55 @@
+_info : 'https://docs.cloudscripting.com/1.6.2/'
+version: 1.6.2
+build: 20200309
+type: update
+name: 'Restart_node'
+id: 'Restart_tomcat'
+homepage: https://github.com/layershift/control_panel_load
+baseUrl: https://raw.githubusercontent.com/layershift/control_panel_load/master
+logo: /images/restart.png?_r=${fn.random}
+
+categories:
+ - apps/others
+
+description:
+  text: /texts/description.md
+  short: Restart control panel node container once the load is higher than 80% for more than 10 minutes
+
+targetNodes: any
+
+settings:
+  main:
+    fields:
+      - type: string
+        name: alert_name
+        caption: The name for the custom alert
+        hideLabel: false
+        default: Cpu_alert
+onInstall:
+  - env.trigger.AddTrigger:
+      data:
+        name: ${settings.alert_name}
+        nodeGroup: cp
+        period: 10
+        condition:
+          type: GREATER
+          value: 80
+          resourceType: CPU
+          valueType: PERCENTAGES
+        actions:
+        - type: NOTIFY
+          customData:
+            notify: false
+            
+  - setGlobals:
+      triggerId: ${response.object.id}
+
+onUninstall:
+  - env.trigger.DeleteTrigger:
+      id: ${globals.triggerId}
+
+onAlert [name:Cpu_alert]:
+ api [cp]: jelastic.environment.control.RestartNodes
+success: /texts/success.md
+
+
