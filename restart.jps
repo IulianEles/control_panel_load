@@ -48,7 +48,7 @@ onUninstall:
   - env.trigger.DeleteTrigger:
       id: ${globals.triggerId}
 
-onAlert [name:Cpu_alert]:
+onAlert [name:${settings.alert_name}]:
  api [cp]: jelastic.environment.control.RestartNodes
 success: /texts/success.md
 
