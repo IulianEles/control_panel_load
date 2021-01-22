@@ -15,26 +15,43 @@ description:
   text: /texts/description.md
   short: Restart control panel node container once the load is higher than 80% for more than 10 minutes
 
-targetNodes: any
+targetNodes: 
+  nodeGroup: 'cp, bl'
 
 settings:
   main:
     fields:
       - type: string
+        name: resource
+        caption: The resource you want to monitor (CPU, MEM (Memory),CLOUDLETS)
+        hideLabel: false
+        default: CPU
+      - type: string
         name: alert_name
         caption: The name for the custom alert
         hideLabel: false
         default: Cpu_alert
+      - type: string
+        name: period
+        caption: The period of time before an action is executed (in minutes, with smallest value=5)
+        hideLabel: false
+        default: 5
+      - type: string
+        name: percentage
+        caption: The percentage of the resource usage that needs to be used for an action to be executed
+        hideLabel: false
+        default: 80
+
 onInstall:
   - env.trigger.AddTrigger:
       data:
         name: ${settings.alert_name}
         nodeGroup: cp
-        period: 10
+        period: ${settings.period}
         condition:
           type: GREATER
-          value: 80
-          resourceType: CPU
+          value: ${settings.percentage}
+          resourceType: ${settings.resource}
           valueType: PERCENTAGES
         actions:
         - type: NOTIFY
@@ -49,7 +66,7 @@ onUninstall:
       id: ${globals.triggerId}
 
 onAlert [name:${settings.alert_name}]:
- api [cp]: jelastic.environment.control.RestartNodes
+ api [cp, bl]: jelastic.environment.control.RestartNodes
 success: /texts/success.md
 
 
