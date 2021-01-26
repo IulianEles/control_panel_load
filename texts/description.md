@@ -14,7 +14,6 @@ Take automated action (reboot) when environment node is under load for prolonged
 
 ### Installing
 
-*Installing*
 [![GET IT HOSTED](https://raw.githubusercontent.com/jelastic-jps/jpswiki/master/images/getithosted.png)](https://github.com/layershift/control_panel_load/blob/main/restart.jps)
 
 To deploy this package to Jelastic Private Cloud, import [this JPS manifest](https://github.com/layershift/control_panel_load/blob/main/restart.jps) within your dashboard ([detailed instruction](https://docs.jelastic.com/environment-export-import#import)).
