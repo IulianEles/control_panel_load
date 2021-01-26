@@ -13,7 +13,7 @@ categories:
 
 description:
   text: /texts/description.md
-  short: Restart control panel node container once the load is higher than 80% for more than 10 minutes
+  short: Restarts all containers in nodeGroup if load alert conditions are met
 
 targetNodes: 
   nodeGroup: 'cp, bl'
@@ -21,31 +21,43 @@ targetNodes:
 settings:
   main:
     fields:
-      - type: string
+      - type: list
         name: resource
-        caption: The resource you want to monitor (CPU, MEM (Memory),CLOUDLETS)
-        hideLabel: false
+        caption: When
         default: CPU
-      - type: string
-        name: alert_name
-        caption: The name for the custom alert
+        values:        
+        - value: CPU
+          caption: CPU
+        - value: MEM
+          caption: MEM
+        - value: CLOUDLETS
+          caption: CLOUDLETS
         hideLabel: false
-        default: Cpu_alert
-      - type: string
-        name: period
-        caption: The period of time before an action is executed (in minutes, with smallest value=5)
-        hideLabel: false
-        default: 5
-      - type: string
+        hidden: false
+        editable: false
+      - min: 0
+        max: 100
+        increment: 1
+        useTips: true
+        caption: Is higher than (%)
+        type: slider
         name: percentage
-        caption: The percentage of the resource usage that needs to be used for an action to be executed
-        hideLabel: false
+        hidden: false
         default: 80
+      - min: 1
+        max: 60
+        increment: 5
+        useTips: true
+        caption: For at least (min)
+        type: slider
+        name: period
+        hidden: false
+        default: 10
 
 onInstall:
   - env.trigger.AddTrigger:
       data:
-        name: ${settings.alert_name}
+        name: ${settings.resource}_alert
         nodeGroup: cp
         period: ${settings.period}
         condition:
@@ -56,17 +68,15 @@ onInstall:
         actions:
         - type: NOTIFY
           customData:
-            notify: false
+            notify: true
             
   - setGlobals:
       triggerId: ${response.object.id}
-
+      alert_name: ${response.object.name}
 onUninstall:
   - env.trigger.DeleteTrigger:
       id: ${globals.triggerId}
 
-onAlert [name:${settings.alert_name}]:
+onAlert [name:${globals.alert_name}]:
  api [cp, bl]: jelastic.environment.control.RestartNodes
 success: /texts/success.md
-
-
