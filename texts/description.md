@@ -20,7 +20,7 @@ To deploy this package to Jelastic Private Cloud, import [this JPS manifest](htt
 
 For more information on what Jelastic add-on is and how to apply it, follow the [Jelastic Add-ons](https://github.com/jelastic-jps/jpswiki/wiki/Jelastic-Addons) reference.
 
-*You can install the add-on to any environment by selecting Add-ons for the desired node (load balancer or application server) and click on Install under the [add-on name].*
+*You can install the add-on to any environment by selecting Add-ons for the desired node (load balancer or application server) and click on Install under the Load based node restart.*
 
 During installation you are asked to select the desired triggers for the node reboot:
 ![alt text](https://github.com/layershift/control_panel_load/blob/main/images/install.PNG)
