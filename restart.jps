@@ -4,7 +4,7 @@ build: 20200309
 type: update
 name: 'Load based node restart'
 id: 'Load based node restart'
-homepage: https://raw.githubusercontent.com/layershift/control_panel_load/master/texts/description.md
+homepage: https://github.com/layershift/control_panel_load
 baseUrl: https://raw.githubusercontent.com/layershift/control_panel_load/master
 logo: /images/restart.png?_r=${fn.random}
 
@@ -48,7 +48,7 @@ settings:
         max: 60
         increment: 5
         useTips: true
-        caption: For at least (min)
+        caption: For at least (minutes)
         type: slider
         name: period
         hidden: false
