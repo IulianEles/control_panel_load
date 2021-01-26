@@ -6,7 +6,7 @@ name: 'Load based node restart'
 id: 'Load based node restart'
 homepage: https://github.com/layershift/control_panel_load
 baseUrl: https://raw.githubusercontent.com/layershift/control_panel_load/master
-logo: /images/restart.png?_r=${fn.random}
+logo: /images/restart.svg?_r=${fn.random}
 
 categories:
  - apps/others
