@@ -1,1 +1,1 @@
-*This add-on triggers a node restart based on the defined load balancer or application node load trigger conditions*
+Trigger node restart for all nodes in the selected nodeGroup based on high resource consumption for a sustained period of time.
