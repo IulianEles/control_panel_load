@@ -57,7 +57,7 @@ settings:
 onInstall:
   - env.trigger.AddTrigger:
       data:
-        name: ${settings.resource}_alert
+        name: ${settings.resource}_restart_alert
         nodeGroup: cp
         period: ${settings.period}
         condition:
