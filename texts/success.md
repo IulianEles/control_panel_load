@@ -1,2 +1,1 @@
-**Evrika!**
-*Your CPU load monitoring is ready!*
+The specified load alert was added in Environment Settings > Load Alerts, and will restart all nodes in the specified nodeGroup when the *_restart_alert conditions are met.
