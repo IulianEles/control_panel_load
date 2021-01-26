@@ -12,7 +12,7 @@ categories:
  - apps/others
 
 description:
-  text: /texts/description.md
+  text: /texts/short.md
   short: Restarts all containers in nodeGroup if load alert conditions are met
 
 targetNodes: 
