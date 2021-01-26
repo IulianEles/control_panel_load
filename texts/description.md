@@ -14,13 +14,16 @@ Take automated action (reboot) when environment node is under load for prolonged
 
 ### Installing
 
-You can install the add-on to any environment by selecting Add-ons for the desired node and click on **Install**.
+*Installing*
+[![GET IT HOSTED](https://raw.githubusercontent.com/jelastic-jps/jpswiki/master/images/getithosted.png)](https://github.com/layershift/control_panel_load/blob/main/restart.jps)
 
+To deploy this package to Jelastic Private Cloud, import [this JPS manifest](https://github.com/layershift/control_panel_load/blob/main/restart.jps) within your dashboard ([detailed instruction](https://docs.jelastic.com/environment-export-import#import)).
 
-![alt text](https://github.com/layershift/control_panel_load/blob/main/images/add-on.PNG)
+For more information on what Jelastic add-on is and how to apply it, follow the [Jelastic Add-ons](https://github.com/jelastic-jps/jpswiki/wiki/Jelastic-Addons) reference.
+
+*You can install the add-on to any environment by selecting Add-ons for the desired node (load balancer or application server) and click on Install under the [add-on name].*
 
 During installation you are asked to select the desired triggers for the node reboot:
-
 ![alt text](https://github.com/layershift/control_panel_load/blob/main/images/install.PNG)
 
 * When: type of resource to monitor - CPU, Memory or Cloudlet usage
