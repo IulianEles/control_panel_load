@@ -2,9 +2,9 @@ _info : 'https://docs.cloudscripting.com/1.6.2/'
 version: 1.6.2
 build: 20200309
 type: update
-name: 'Node_restart'
-id: 'Node_restart'
-homepage: https://github.com/layershift/control_panel_load
+name: 'Load based node restart'
+id: 'Load based node restart'
+homepage: https://raw.githubusercontent.com/layershift/control_panel_load/master/texts/description.md
 baseUrl: https://raw.githubusercontent.com/layershift/control_panel_load/master
 logo: /images/restart.png?_r=${fn.random}
 
@@ -80,3 +80,5 @@ onUninstall:
 onAlert [name:${globals.alert_name}]:
  api [cp, bl]: jelastic.environment.control.RestartNodes
 success: /texts/success.md
+
+
