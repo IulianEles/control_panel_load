@@ -1,6 +1,6 @@
 _info : 'https://docs.cloudscripting.com/1.6.2/'
 version: 1.6.2
-build: 20200309
+build: 20210203
 type: update
 name: 'Load based node restart'
 id: 'Load based node restart'
@@ -16,7 +16,13 @@ description:
   short: Restarts all containers in nodeGroup if load alert conditions are met
 
 targetNodes: 
-  nodeGroup: 'cp, bl'
+  nodeGroup: 
+  - cp
+  - bl
+
+nodeGroupAlias:
+  ${targetNodes.nodeGroup}: target
+
 
 settings:
   main:
@@ -54,31 +60,55 @@ settings:
         hidden: false
         default: 10
 
-onInstall:
-  - env.trigger.AddTrigger:
-      data:
-        name: ${settings.resource}_restart_alert
-        nodeGroup: cp
-        period: ${settings.period}
-        condition:
-          type: GREATER
-          value: ${settings.percentage}
-          resourceType: ${settings.resource}
-          valueType: PERCENTAGES
-        actions:
-        - type: NOTIFY
-          customData:
-            notify: true
-            
-  - setGlobals:
-      triggerId: ${response.object.id}
-      alert_name: ${response.object.name}
-onUninstall:
-  - env.trigger.DeleteTrigger:
-      id: ${globals.triggerId}
+menu:
+  - caption: Manual Trigger
+    loadingText: Executing..
+    action: doOnAlert
 
-onAlert [name:${globals.alert_name}]:
- api [cp, bl]: jelastic.environment.control.RestartNodes
+onInstall:
+  doInstall
+
+onAfterRedeployContainer:
+  doInstall
+
+onBeforeRedeployContainer:
+  doUninstall
+
+onUninstall:
+  doUninstall
+
+onAlert:
+  doOnAlert
+
+actions:
+  doUninstall:
+    - env.trigger.DeleteTrigger:
+        id: ${globals.triggerId}
+
+  doInstall:
+    - env.trigger.AddTrigger:
+        data:
+          name: ${settings.resource}_restart_alert
+          nodeGroup: ${targetNodes.nodeGroup}
+          period: ${settings.period}
+          condition:
+            type: GREATER
+            value: ${settings.percentage}
+            resourceType: ${settings.resource}
+            valueType: PERCENTAGES
+          actions:
+          - type: NOTIFY
+            customData:
+              notify: true       
+    - setGlobals:
+        triggerId: ${response.object.id}
+        alert_name: ${response.object.name}
+
+  doOnAlert:
+    - api [target]: jelastic.environment.control.ExecCmdByGroup
+      commandList: [{"command":"if [ -f ~/watchdog_before_restart.sh ]; then ~/watchdog_before_restart.sh; fi","params":""}]
+    - api [target]: jelastic.environment.control.RestartNodes
+
 success: /texts/success.md
 
 

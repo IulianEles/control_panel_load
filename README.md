@@ -35,3 +35,9 @@ Once the add-on is installed, it will create a load alert for the trigger (*CPU_
 All environment collaborators will receive an email notification each time the alert is triggered (and all nodes in the selected nodeGroup - e.g. all load balancer or application server nodes within the selected environment - will be restarted)
 
 ***Note:** removing the related alert will stop the add-on from working.*
+
+### Custom actions
+
+Before triggering the node group restart the add-on will execute, if it exists, ~/watchdog_before_restart.sh. Just open webSSH or login via SSH then edit and save ~/watchdog_before_restart.sh.
+
+***Note:** chmod +x ~/watchdog_before_restart.sh*
