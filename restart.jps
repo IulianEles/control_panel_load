@@ -77,7 +77,7 @@ onBeforeRedeployContainer:
 onUninstall:
   doUninstall
 
-onAlert:
+onAlert [name:${globals.alert_name}]:
   doOnAlert
 
 actions:
@@ -99,19 +99,20 @@ actions:
           actions:
           - type: NOTIFY
             customData:
-              notify: true       
+              notify: true
+              reminderPeriod: 0      
     - setGlobals:
         triggerId: ${response.object.id}
         alert_name: ${response.object.name}
+    - return:
+        type: success
+        message: /texts/success.md
 
   doOnAlert:
     - api [target]: jelastic.environment.control.ExecCmdByGroup
       commandList: [{"command":"if [ -f ~/watchdog_before_restart.sh ]; then ~/watchdog_before_restart.sh; fi","params":""}]
     - api [target]: jelastic.environment.control.RestartNodes
-    - return:
-        type: success
-        message: 'Action complete'
 
-success: /texts/success.md
+success: 'Action complete'
 
 
